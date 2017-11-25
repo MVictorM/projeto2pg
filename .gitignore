@@ -1,13 +1,15 @@
-*.tar
-*.tar.*
-*.jar
-*.exe
-*.msi
-*.zip
-*.tgz
-*.log
-*.log.*
-*.sig
+# Ignore netbeans folder
+nbproject/*
 
-pkg/
-src/
+# MAC
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Eclipse project files
+/.cache
+.project
+/.settings
+.buildpath
+/.idea/*
