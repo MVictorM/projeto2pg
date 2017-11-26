@@ -8,7 +8,7 @@ function closeNav() {
 //inicializa variáveis que serão preenchidas a partir da leitura dos arquivos
 var camera = {};
 var iluminacao = {};
-var objeto = {};
+var objeto = {pontos:[], triangulos:[]};
 
 jQuery( "#submit" ).click(function() {
     if(validarEnvioArquivos()) {
@@ -28,9 +28,9 @@ function validarEnvioArquivos() {
 }
 
 function parametrosCamera() {
-    var file = jQuery('#camera').get(0).files[0];
+    var file = jQuery('#camera').get(0).files[0]; //pega o arquivo de camera
     var reader = new FileReader();
-    reader.onload = function(){
+    reader.onload = function(){ //le as linhas
         var lines = this.result.split('\n');
         for(var line = 0; line < lines.length; line++){
             lines[line] = lines[line].split(" ");
@@ -44,9 +44,9 @@ function parametrosCamera() {
 }
 
 function parametrosIluminacao() {
-    var file = jQuery('#iluminacao').get(0).files[0];
+    var file = jQuery('#iluminacao').get(0).files[0]; //pega o arquivo de iluminacao
     var reader = new FileReader();
-    reader.onload = function(){
+    reader.onload = function(){ //le as linhas
         var lines = this.result.split('\n');
         for(var line = 0; line < lines.length; line++){
             lines[line] = lines[line].split(" ");
@@ -64,12 +64,22 @@ function parametrosIluminacao() {
 }
 
 function parametrosObjeto() {
-    var file = jQuery('#iluminacao').get(0).files[0];
+    var file = jQuery('#objeto').get(0).files[0]; //pega o arquivo de objeto
     var reader = new FileReader();
-    reader.onload = function(){
+    reader.onload = function(){ //le as linhas
         var lines = this.result.split('\n');
-        for(var line = 0; line < lines.length; line++){
-            lines[line] = lines[line].split(" ");
+        var ponto = [];
+        var triangulo = [];
+        var qtdPontos = parseInt(lines[0].split(' ')[0]);
+        var qtdTriangulos = parseInt(lines[0].split(' ')[1]);
+        var finalArquivo = 1 + qtdPontos + qtdTriangulos;
+        for(var line = 1; line < qtdPontos; line++){
+            ponto = lines[line].split(" ");
+            objeto.pontos.push(ponto);
+        }
+        for(var line = qtdPontos+1; line < finalArquivo; line++){
+            triangulo = lines[line].split(" ");
+            objeto.triangulos.push(triangulo);
         }
     };
     reader.readAsText(file);
