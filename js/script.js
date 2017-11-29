@@ -119,4 +119,12 @@ function projecaoVetor(vetorA, vetorB) {
     return multiplicarPorConstante(vetorB, constante);
 }
 
-// 
+// Preparar camera
+function subtracaoVetores(vetorA,vetorB) {
+    return new Vetor(vetorA.x - vetorB-x, vetorA.y - vetorB-y, vetorA.z - vetorB-z);
+}
+
+function orgonalizar(n, v) {
+    return subtracaoVetores(v, projecaoVetor(v,n));
+}
+
