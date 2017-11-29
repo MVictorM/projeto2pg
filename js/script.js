@@ -75,6 +75,7 @@ function parametrosObjeto() {
         var finalArquivo = 1 + qtdPontos + qtdTriangulos;
         for(var line = 1; line < qtdPontos; line++){
             ponto = lines[line].split(" ");
+            console.log(ponto);
             objeto.pontos.push(ponto);
         }
         for(var line = qtdPontos+1; line < finalArquivo; line++){
@@ -83,4 +84,22 @@ function parametrosObjeto() {
         }
     };
     reader.readAsText(file);
+}
+
+function produtoVetorial(pontoA, pontoB) {
+    return [pontoA[1]*pontoB[2] - pontoA[2]*pontoB[1], pontoA[2]*pontoB[0] - pontoA[0]*pontoB[2], pontoA[0]*pontoB[1] - pontoA[1]*pontoB[0]];
+}
+
+// Produto interno/escalar
+function produtoPonto(pontoA,pontoB){
+    return pontoA[0]*pontoB[0] + pontoA[1]*pontoB[1] + pontoA[2]*pontoB[2];
+}
+
+function normalizarVetor(ponto) {
+    var somaQuadrado = 0;
+    for(eixo in ponto) {
+        somaQuadrado += ponto[eixo] * ponto[eixo]
+    }
+    var norma = Math.sqrt(somaQuadrado);
+    return [ponto[0]/norma,ponto[1]/norma,ponto[2]/norma]
 }
