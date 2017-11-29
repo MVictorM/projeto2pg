@@ -1,3 +1,5 @@
+import vetor from 'modelos/vetor.js';
+
 //Ações abrir e fechar menu
 function openNav() {
     jQuery('#menuLat')[0].style.width = "20%";
@@ -86,20 +88,35 @@ function parametrosObjeto() {
     reader.readAsText(file);
 }
 
-function produtoVetorial(pontoA, pontoB) {
-    return [pontoA[1]*pontoB[2] - pontoA[2]*pontoB[1], pontoA[2]*pontoB[0] - pontoA[0]*pontoB[2], pontoA[0]*pontoB[1] - pontoA[1]*pontoB[0]];
+// Funções auxiliares
+function produtoVetorial(vetorA, vetorB) {
+    var i = (vetorA.y*vetorB.z) - (vetorA.z*vetorB.y);
+    var j = (vetorA.z*vetorB.x) - (vetorA.x*vetorB.z);
+    var k = (vetorA.x*vetorB.y) - (vetorA.y*vetorB.x);
+    return new Vetor(i,j,k);
 }
 
-// Produto interno/escalar
-function produtoPonto(pontoA,pontoB){
-    return pontoA[0]*pontoB[0] + pontoA[1]*pontoB[1] + pontoA[2]*pontoB[2];
+function normalizarVetor(vetor) {
+    var soma = 0;
+    soma += vetor.x * vetor.x;
+    soma += vetor.y * vetor.y;
+    soma += vetor.z * vetor.z;
+    var norma = Math.sqrt(soma);
+    return norma;
 }
 
-function normalizarVetor(ponto) {
-    var somaQuadrado = 0;
-    for(eixo in ponto) {
-        somaQuadrado += ponto[eixo] * ponto[eixo]
-    }
-    var norma = Math.sqrt(somaQuadrado);
-    return [ponto[0]/norma,ponto[1]/norma,ponto[2]/norma]
+function produtoEscalar(vetorA,vetorB) {
+    return vetorA.x*vetorB.X + vetorA.y * vetorB.y + vetorA.z * vetorB.z;
 }
+
+function multiplicarPorConstante(vetor, constante) {
+    return new Vetor(vetor.x * constante, vetor.y * constante, vetor.z * constante);
+}
+
+function projecaoVetor(vetorA, vetorB) {
+    var norma = normalizarVetor(vetorB);
+    var constante = produtoEscalar(vetorA, vetorB) / (norma * norma);
+    return multiplicarPorConstante(vetorB, constante);
+}
+
+// 
