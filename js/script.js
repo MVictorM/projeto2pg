@@ -1,5 +1,3 @@
-import vetor from 'modelos/vetor.js';
-
 //Ações abrir e fechar menu
 function openNav() {
     jQuery('#menuLat')[0].style.width = "20%";
@@ -95,18 +93,17 @@ function produtoVetorial(vetorA, vetorB) {
     var k = (vetorA.x*vetorB.y) - (vetorA.y*vetorB.x);
     return new Vetor(i,j,k);
 }
-
 function normalizarVetor(vetor) {
     var soma = 0;
     soma += vetor.x * vetor.x;
     soma += vetor.y * vetor.y;
     soma += vetor.z * vetor.z;
     var norma = Math.sqrt(soma);
-    return norma;
+    return new Vetor(vetor.x / norma, vetor.y/norma, vetor.z/norma);
 }
 
 function produtoEscalar(vetorA,vetorB) {
-    return vetorA.x*vetorB.X + vetorA.y * vetorB.y + vetorA.z * vetorB.z;
+    return vetorA.x*vetorB.x + vetorA.y * vetorB.y + vetorA.z * vetorB.z;
 }
 
 function multiplicarPorConstante(vetor, constante) {
