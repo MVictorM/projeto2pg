@@ -10,6 +10,7 @@ var camera = {};
 var iluminacao = {};
 var objeto = {pontos:[], triangulos:[]};
 
+//realiza as operacoes ao submeter os arquivos
 jQuery( "#submit" ).click(function() {
     if(validarEnvioArquivos()) {
         parametrosCamera();
@@ -75,7 +76,6 @@ function parametrosObjeto() {
         var finalArquivo = 1 + qtdPontos + qtdTriangulos;
         for(var line = 1; line < qtdPontos; line++){
             ponto = lines[line].split(" ");
-            console.log(ponto);
             objeto.pontos.push(ponto);
         }
         for(var line = qtdPontos+1; line < finalArquivo; line++){
@@ -91,7 +91,7 @@ function produtoVetorial(vetorA, vetorB) {
     var i = (vetorA.y*vetorB.z) - (vetorA.z*vetorB.y);
     var j = (vetorA.z*vetorB.x) - (vetorA.x*vetorB.z);
     var k = (vetorA.x*vetorB.y) - (vetorA.y*vetorB.x);
-    return new Vetor(i,j,k);
+    return {x:i,y:j,z:k};
 }
 function normalizarVetor(vetor) {
     var soma = 0;
@@ -99,7 +99,7 @@ function normalizarVetor(vetor) {
     soma += vetor.y * vetor.y;
     soma += vetor.z * vetor.z;
     var norma = Math.sqrt(soma);
-    return new Vetor(vetor.x / norma, vetor.y/norma, vetor.z/norma);
+    return {x:vetor.x / norma, y:vetor.y/norma, z:vetor.z/norma};
 }
 
 function produtoEscalar(vetorA,vetorB) {
