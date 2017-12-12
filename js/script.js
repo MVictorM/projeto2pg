@@ -39,7 +39,10 @@ function parametrosCamera() {
         camera.c = lines[0]; //C - Posicao da camera em coordenadas de mundo
         camera.vetorN = lines[1]; //Vetor N
         camera.vetorV = lines[2]; //Vetor V
-        camera.dhxhy = lines[3]; //d hx hy
+        var dhxhy = lines[3]; //d hx hy
+        camera.d = dhxhy[0];
+        camera.hx = dhxhy[1];
+        camera.hy = dhxhy[2];
     };
     reader.readAsText(file);
 }
@@ -94,12 +97,16 @@ function produtoVetorial(vetorA, vetorB) {
     return {x:i,y:j,z:k};
 }
 function normalizarVetor(vetor) {
+    var norma = calcularNorma(vetor);
+    return {x:vetor.x / norma, y: vetor.y/norma, z:vetor.z/norma};
+}
+
+function calcularNorma(vetor) {
     var soma = 0;
     soma += vetor.x * vetor.x;
     soma += vetor.y * vetor.y;
     soma += vetor.z * vetor.z;
-    var norma = Math.sqrt(soma);
-    return {x:vetor.x / norma, y:vetor.y/norma, z:vetor.z/norma};
+    return Math.sqrt(soma);
 }
 
 function produtoEscalar(vetorA,vetorB) {
@@ -107,18 +114,18 @@ function produtoEscalar(vetorA,vetorB) {
 }
 
 function multiplicarPorConstante(vetor, constante) {
-    return new Vetor(vetor.x * constante, vetor.y * constante, vetor.z * constante);
+    return {x:vetor.x * constante, y:vetor.y * constante, z:vetor.z * constante};
 }
 
 function projecaoVetor(vetorA, vetorB) {
-    var norma = normalizarVetor(vetorB);
+    var norma = calcularNorma(vetorB);
     var constante = produtoEscalar(vetorA, vetorB) / (norma * norma);
     return multiplicarPorConstante(vetorB, constante);
 }
 
 // Preparar camera
 function subtracaoVetores(vetorA,vetorB) {
-    return new Vetor(vetorA.x - vetorB-x, vetorA.y - vetorB-y, vetorA.z - vetorB-z);
+    return {x:vetorA.x - vetorB-x, y:vetorA.y - vetorB-y, z:vetorA.z - vetorB-z};
 }
 
 function orgonalizar(n, v) {
