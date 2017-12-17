@@ -35,6 +35,12 @@
   margin-left: 2px;
 }
 
+#botaoAbrirMenu {
+  font-size:30px;
+  cursor:pointer;
+  position: absolute;
+}
+
 label {
   color: #c4e3f3;
 }
