@@ -89,6 +89,13 @@ function parametrosObjeto() {
     reader.readAsText(file);
 }
 
+function prepararCamera() {
+    //ortogonalizar o vetor V
+    camera.vetorVOrtogonalizado = projecaoVetor(camera.vetorN,camera.vetorV);
+    //calcular o vetor U
+    camera.vetorU = produtoVetorial(camera.vetorN, camera.vetorV);
+}
+
 // Funções auxiliares
 function produtoVetorial(vetorA, vetorB) {
     var i = (vetorA.y*vetorB.z) - (vetorA.z*vetorB.y);
@@ -125,10 +132,11 @@ function projecaoVetor(vetorA, vetorB) {
 
 // Preparar camera
 function subtracaoVetores(vetorA,vetorB) {
-    return {x:vetorA.x - vetorB-x, y:vetorA.y - vetorB-y, z:vetorA.z - vetorB-z};
+    return {x:vetorA.x - vetorB.x, y:vetorA.y - vetorB.y, z:vetorA.z - vetorB.z};
 }
 
-function orgonalizar(n, v) {
-    return subtracaoVetores(v, projecaoVetor(v,n));
+//projecao do vetorB sobre o vetorA
+function orgonalizar(vetorA, vetorB) {
+    return subtracaoVetores(vetorB, projecaoVetor(vetorB,vetorA));
 }
 
