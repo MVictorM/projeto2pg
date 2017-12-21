@@ -159,7 +159,6 @@ function parametrosObjeto() {
             
             triangulos2D.push(triangulo2d);
         }
-
     };
  
     reader.readAsText(file);
