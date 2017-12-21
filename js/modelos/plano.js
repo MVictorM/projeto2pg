@@ -25,8 +25,6 @@ function Plano(p1, p2, p3, s){
     var saida = -1;
     var aux = (this.normal.x*ponto.x) + (this.normal.y*ponto.y) + (this.normal.z*ponto.z) - this.d;
     if(aux > 0) saida = 1;
-    // else if(aux < 0) saida = -1;
     return saida;
   };
-
 }

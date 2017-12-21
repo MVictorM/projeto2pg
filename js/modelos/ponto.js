@@ -52,10 +52,4 @@ function Ponto(x,y,z) {
         return new Ponto(this.x, this.y, this.z);
     };
 
-    
-
-
-
-
-
 }

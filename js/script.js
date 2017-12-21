@@ -15,7 +15,7 @@ jQuery( "#submit" ).click(function() {
     if(validarEnvioArquivos()) {
         parametrosCamera();
         parametrosIluminacao();
-        // parametrosObjeto();
+        parametrosObjeto();
     }
 });
 
@@ -78,6 +78,7 @@ function parametrosIluminacao() {
 function parametrosObjeto() {
     var file = jQuery('#objeto').get(0).files[0]; //pega o arquivo de objeto
     var reader = new FileReader();
+    
     reader.onload = function(){ //le as linhas
         var lines = this.result.split('\n');
         var ponto = [];
@@ -85,22 +86,22 @@ function parametrosObjeto() {
         var qtdPontos = parseInt(lines[0].split(' ')[0]);
         var qtdTriangulos = parseInt(lines[0].split(' ')[1]);
         var finalArquivo = 1 + qtdPontos + qtdTriangulos;
+        
         for(var line = 1; line < qtdPontos; line++){
-            ponto = lines[line].split(" ");
-            objeto.pontos.push(ponto);
+            var linhaPonto = lines[line].split(" ");
+            var ponto = new Ponto(linhaPonto[0], linhaPonto[1], linhaPonto[2]);
+            pontos3DMundo.push(ponto);
         }
         
         for(var line = qtdPontos+1; line < finalArquivo; line++){
-            triangulo = lines[line].split(" ");
-            objeto.triangulos.push(triangulo);
+            var linhaTriangulo = lines[line].split(" ");
+            var ponto1 = pontos3DMundo[linhaTriangulo[0]-1];
+            var ponto2 = pontos3DMundo[linhaTriangulo[1]-1];
+            var ponto3 = pontos3DMundo[linhaTriangulo[2]-1];
+            var triangulo = new Triangulo(ponto1, ponto2, ponto3);
+            triangulos3D.push(triangulo);
         }
     };
+ 
     reader.readAsText(file);
-}
-
-function prepararCamera() {
-    //ortogonalizar o vetor V
-    camera.vetorVOrtogonalizado = projecaoVetor(camera.vetorN,camera.vetorV);
-    //calcular o vetor U
-    camera.vetorU = produtoVetorial(camera.vetorN, camera.vetorV);
 }

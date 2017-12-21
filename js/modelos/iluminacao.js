@@ -15,11 +15,9 @@ function Iluminacao(pl, ka, ia, kd, od, ks, il, n) {
     l = l.multiplicar(this.ka); // Ia * Ka
     if(N != null) {
       var pe_nl = N.produtoEscalar(L); // <N, L>
-      a = new Vetor(this.od.x*this.il.x, this.od.y*this.il.y, this.od.z*this.il.z); // ISSO É O CORRETO
-  
-      a = a.multiplicar(this.kd*pe_nl); //ISSO É O CORRETO
-  
-      l = new Vetor(l.x+a.x, l.y+a.y, l.z+a.z); //ISSO É O CERTO
+      a = new Vetor(this.od.x*this.il.x, this.od.y*this.il.y, this.od.z*this.il.z);
+      a = a.multiplicar(this.kd*pe_nl); 
+      l = new Vetor(l.x+a.x, l.y+a.y, l.z+a.z); 
     }
     if(R != null) {
       var pe_rv = R.produtoEscalar(V); // <R, V>
