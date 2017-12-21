@@ -14,7 +14,7 @@ var pontos3DMundo, triangulos3D, triangulos2D, triangulosRef = [];
 jQuery( "#submit" ).click(function() {
     if(validarEnvioArquivos()) {
         parametrosCamera();
-        // parametrosIluminacao();
+        parametrosIluminacao();
         // parametrosObjeto();
     }
 });
@@ -59,15 +59,19 @@ function parametrosIluminacao() {
         for(var line = 0; line < lines.length; line++){
             lines[line] = lines[line].split(" ");
         }
-        iluminacao.pl = lines[0]; //Posicao da luz em coordenadas de mundo
-        iluminacao.ka = lines[1]; //reflexao ambiental
-        iluminacao.ia = lines[2]; //vetor cor ambiental
-        iluminacao.kd = lines[3]; //constante difusa
-        iluminacao.od = lines[4]; //vetor difuso
-        iluminacao.ks = lines[5]; //parte especular
-        iluminacao.il = lines[6]; //cor da fonte de luz
-        iluminacao.n =  lines[7]; //constante de rugosidade
+
+        var pl = new Ponto(lines[0][0], lines[0][1], lines[0][2]); //Posicao da luz em coordenadas de mundo
+        var ka = lines[1][0]; //reflexao ambiental
+        var ia = new Vetor(lines[2][0], lines[2][1], lines[2][2]); //vetor cor ambiental
+        var kd = lines[3][0]; //constante difusa
+        var od = new Vetor(lines[4][0], lines[4][1], lines[4][2]); //vetor difuso
+        var ks = lines[5]; //parte especular
+        var il = new Vetor(lines[6][0], lines[6][1], lines[6][2]); //cor da fonte de luz
+        var n =  lines[7]; //constante de rugosidade
+        
+        iluminacao = new Iluminacao(pl,ja,ia,kd,od,ks,il,n);
     };
+
     reader.readAsText(file);
 }
 
