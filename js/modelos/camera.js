@@ -6,18 +6,16 @@ function Camera(c, vetorN, vetorV, d, hx, hy) {
     this.hx = hx;
     this.hy = hy;
     this.alfa = [];
-    genAlfa();
-
-
-  this.genAlfa = function() {
-    this.n.normalizar();
-    this.v = this.v.gramSchmidt(this.n);
-    this.v.normalizar();
-    var u = this.n.produtoVetorial(this.v);
-    this.alfa.push([u.x, u.y, u.z]);
-    this.alfa.push([this.v.x, this.v.y, this.v.z]);
-    this.alfa.push([this.n.x, this.n.y, this.n.z]);
-  };
+    
+    this.genAlfa = function() {
+      this.n.normalizar();
+      this.v = this.v.gramSchmidt(this.n);
+      this.v.normalizar();
+      var u = this.n.produtoVetorial(this.v);
+      this.alfa.push([u.x, u.y, u.z]);
+      this.alfa.push([this.v.x, this.v.y, this.v.z]);
+      this.alfa.push([this.n.x, this.n.y, this.n.z]);
+    };
 
   this.getPontoVista = function(p) {
     var a = p.clone();

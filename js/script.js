@@ -49,6 +49,7 @@ function parametrosCamera() {
         var hx = dhxhy[1];
         var hy = dhxhy[2];
         camera = new Camera(c,vetorN,vetorV,d,hx,hy);
+        camera.genAlfa();
     };
 
     reader.readAsText(file);
@@ -102,6 +103,7 @@ function parametrosObjeto() {
         var finalArquivo = 1 + qtdPontos + qtdTriangulos;
         
         centroide = new Ponto(0,0,0);
+        var f = 1000000;
 
         for(var line = 1; line <= qtdPontos; line++) {  // varrer os pontos do arquivo de entrada
             var linhaPonto = lines[line].split(" ");
@@ -130,6 +132,7 @@ function parametrosObjeto() {
             var ponto2 = pontos3DMundo[linha[1]-1];
             var ponto3 = pontos3DMundo[linha[2]-1];
             var triangulo = new Triangulo(ponto1, ponto2, ponto3);
+            triangulo.calcularNormal();
             var normal = triangulo.normal;
 
             pontos3DVista[linha[0]-1].normal = pontos3DVista[linha[0]-1].normal.add(normal);
@@ -139,8 +142,8 @@ function parametrosObjeto() {
 
         // Iterar sobre os pontos3dvista para pegar os pontos 2d de tela
         for (var j = 0; j < pontos3DVista.length; j++) {
-            pontos3DVista[a].normal.normalizar();
-            pontos2DTela[a] = camera.getPontoTela(pontos3DVista[a]);
+            pontos3DVista[j].normal.normalizar();
+            pontos2DTela[j] = camera.getPontoTela(pontos3DVista[j]);
         }
 
         // Varrer os triangulos do arquivo de entrada e gerar os 2d
@@ -151,6 +154,7 @@ function parametrosObjeto() {
             var ponto2 = pontos3DMundo[linha[1]-1];
             var ponto3 = pontos3DMundo[linha[2]-1];
             var triangulo = new Triangulo(ponto1, ponto2, ponto3);
+            triangulo.calcularNormal();
             triangulos3D.push(triangulo);
 
             var triangulo2d = new Triangulo(pontos2DTela[linha[0]-1], 
@@ -160,7 +164,8 @@ function parametrosObjeto() {
             triangulos2D.push(triangulo2d);
         }
     };
- 
+    
+    desenharObjeto();
     reader.readAsText(file);
 }
 
