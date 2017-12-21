@@ -8,7 +8,10 @@ function closeNav() {
 
 //inicializa variáveis que serão preenchidas a partir da leitura dos arquivos
 var camera, iluminacao, centroide, plano, zBuffer;
-var pontos3DMundo, triangulos3D, triangulos2D, triangulosRef = [];
+var pontos3DMundo= [];
+var triangulos3D = [];
+var triangulos2D= [];
+var triangulosRef = [];
 
 //realiza as operacoes ao submeter os arquivos
 jQuery( "#submit" ).click(function() {
@@ -69,7 +72,7 @@ function parametrosIluminacao() {
         var il = new Vetor(lines[6][0], lines[6][1], lines[6][2]); //cor da fonte de luz
         var n =  lines[7]; //constante de rugosidade
         
-        iluminacao = new Iluminacao(pl,ja,ia,kd,od,ks,il,n);
+        iluminacao = new Iluminacao(pl,ka,ia,kd,od,ks,il,n);
     };
 
     reader.readAsText(file);
@@ -87,7 +90,7 @@ function parametrosObjeto() {
         var qtdTriangulos = parseInt(lines[0].split(' ')[1]);
         var finalArquivo = 1 + qtdPontos + qtdTriangulos;
         
-        for(var line = 1; line < qtdPontos; line++){
+        for(var line = 1; line <= qtdPontos; line++){
             var linhaPonto = lines[line].split(" ");
             var ponto = new Ponto(linhaPonto[0], linhaPonto[1], linhaPonto[2]);
             pontos3DMundo.push(ponto);
@@ -101,6 +104,7 @@ function parametrosObjeto() {
             var triangulo = new Triangulo(ponto1, ponto2, ponto3);
             triangulos3D.push(triangulo);
         }
+
     };
  
     reader.readAsText(file);
