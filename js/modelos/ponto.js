@@ -3,15 +3,24 @@ function Ponto(x,y,z) {
     this.y = y;
     this.normal = new Vetor(0, 0, 0);
 
+    this.z = undefined;
     if (z != undefined) {
         this.z = z;
     }
     
     this.sub = function(p) {
+        if (this.z == undefined) {
+            return new Ponto(this.x - p.x, this.y - p.y);    
+        }
+
         return new Ponto(this.x - p.x, this.y - p.y, this.z - p.z);
     };
 
     this.add = function(p) {
+        if (this.z == undefined) {
+            return new Ponto(this.x + p.x, this.y + p.y);    
+        }
+
         return new Ponto(this.x + p.x, this.y + p.y, this.z + p.z);
     };
     

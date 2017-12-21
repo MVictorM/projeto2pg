@@ -3,6 +3,7 @@ function Triangulo(ponto1, ponto2, ponto3) {
     this.p2 = ponto2;
     this.p3 = ponto3;
     this.normal = new Vetor(0, 0, 0);
+    calcularNormal();
 
     this.ordenar = function () {
         if(this.p1.y > this.p2.y) {
