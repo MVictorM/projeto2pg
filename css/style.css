@@ -1,3 +1,7 @@
+canvas, body, html {
+  background-color: #101010;
+}
+
 .sidenav {
   height: 100%;
   width: 20%;
@@ -5,7 +9,7 @@
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
+  background-color: #e3e3e3;
   overflow-x: hidden;
   transition: 0.5s;
   padding-top: 60px;
@@ -39,8 +43,9 @@
   font-size:30px;
   cursor:pointer;
   position: absolute;
+  color: #e3e3e3;
 }
 
 label {
-  color: #c4e3f3;
+  color: #101010;
 }
