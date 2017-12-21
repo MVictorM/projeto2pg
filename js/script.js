@@ -83,7 +83,8 @@ function parametrosObjeto() {
     var file = jQuery('#objeto').get(0).files[0]; //pega o arquivo de objeto
     var reader = new FileReader();
     
-    zBuffer = new Array(altura);
+
+    zBuffer = new Array(altura); // zBuffer é uma matrix de pixels. zBuffer[altura][largura]
     for (var i = 0; i < zBuffer.length; i++) {
         zBuffer[i] = new Array(largura);
         for (var j = 0; j < zBuffer[i].length; j++) zBuffer[i][j] = Infinity;
@@ -159,9 +160,14 @@ function parametrosObjeto() {
             triangulos2D.push(triangulo2d);
         }
 
-        
-
     };
  
     reader.readAsText(file);
 }
+
+var largura = document.getElementById('canvas').width;
+var altura = document.getElementById('canvas').height;
+
+// CANVAS
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');

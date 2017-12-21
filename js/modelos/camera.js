@@ -6,6 +6,8 @@ function Camera(c, vetorN, vetorV, d, hx, hy) {
     this.hx = hx;
     this.hy = hy;
     this.alfa = [];
+    genAlfa();
+
 
   this.genAlfa = function() {
     this.n.normalizar();

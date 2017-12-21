@@ -8,24 +8,26 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div id="menuLat" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <div class="form-group menuItens">
+<div id="container">
+    <div id="menuLat" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div id="menu" class="form-group menuItens">
 
-        <label for="camera">Câmera</label>
-        <input type="file" id="camera">
+            <label for="camera">Câmera</label>
+            <input type="file" id="camera">
 
-        <label for="objeto">Objeto</label>
-        <input type="file" id="objeto">
+            <label for="objeto">Objeto</label>
+            <input type="file" id="objeto">
 
-        <label for="iluminacao">Iluminação</label>
-        <input type="file" id="iluminacao">
+            <label for="iluminacao">Iluminação</label>
+            <input type="file" id="iluminacao">
 
+        </div>
+        <button type="button" class="btn btn-success menuItens" id="submit">Enviar</button>
     </div>
-    <button type="button" class="btn btn-success menuItens" id="submit">Enviar</button>
+    <span id="botaoAbrirMenu" onclick="openNav()">&#9776; Menu</span>
+    <canvas id="canvas"></canvas>
 </div>
-<span id="botaoAbrirMenu" onclick="openNav()">&#9776; Menu</span>
-<canvas id="canvas"></canvas>
 </body>
 <script src="js/jquery-1.12.4.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
