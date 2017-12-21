@@ -5,17 +5,17 @@ function openNav() {
 function closeNav() {
     jQuery('#menuLat')[0].style.width = "0%";
 }
+
 //inicializa variáveis que serão preenchidas a partir da leitura dos arquivos
-var camera = {};
-var iluminacao = {};
-var objeto = {pontos:[], triangulos:[]};
+var camera, iluminacao, centroide, plano, zBuffer;
+var pontos3DMundo, triangulos3D, triangulos2D, triangulosRef = [];
 
 //realiza as operacoes ao submeter os arquivos
 jQuery( "#submit" ).click(function() {
     if(validarEnvioArquivos()) {
         parametrosCamera();
-        parametrosIluminacao();
-        parametrosObjeto();
+        // parametrosIluminacao();
+        // parametrosObjeto();
     }
 });
 
@@ -25,6 +25,7 @@ function validarEnvioArquivos() {
         jQuery('#iluminacao').get(0).files.length === 0) {
         return false
     }
+
     return true
 }
 
@@ -36,14 +37,17 @@ function parametrosCamera() {
         for(var line = 0; line < lines.length; line++){
             lines[line] = lines[line].split(" ");
         }
-        camera.c = lines[0]; //C - Posicao da camera em coordenadas de mundo
-        camera.vetorN = lines[1]; //Vetor N
-        camera.vetorV = lines[2]; //Vetor V
-        var dhxhy = lines[3]; //d hx hy
-        camera.d = dhxhy[0];
-        camera.hx = dhxhy[1];
-        camera.hy = dhxhy[2];
+
+        var c = new Ponto(lines[0][0],lines[0][1], lines[0][2]); //C - Posicao da camera em coordenadas de mundo
+        var vetorN = new Vetor(lines[1][0],lines[1][1], lines[1][2]); //Vetor N
+        var vetorV = new Vetor(lines[2][0],lines[2][1], lines[2][2]); //Vetor N
+        var dhxhy = lines[3];
+        var d = dhxhy[0];
+        var hx = dhxhy[1];
+        var hy = dhxhy[2];
+        camera = new Camera(c,vetorN,vetorV,d,hx,hy);
     };
+
     reader.readAsText(file);
 }
 
@@ -81,6 +85,7 @@ function parametrosObjeto() {
             ponto = lines[line].split(" ");
             objeto.pontos.push(ponto);
         }
+        
         for(var line = qtdPontos+1; line < finalArquivo; line++){
             triangulo = lines[line].split(" ");
             objeto.triangulos.push(triangulo);
@@ -95,48 +100,3 @@ function prepararCamera() {
     //calcular o vetor U
     camera.vetorU = produtoVetorial(camera.vetorN, camera.vetorV);
 }
-
-// Funções auxiliares
-function produtoVetorial(vetorA, vetorB) {
-    var i = (vetorA.y*vetorB.z) - (vetorA.z*vetorB.y);
-    var j = (vetorA.z*vetorB.x) - (vetorA.x*vetorB.z);
-    var k = (vetorA.x*vetorB.y) - (vetorA.y*vetorB.x);
-    return {x:i,y:j,z:k};
-}
-function normalizarVetor(vetor) {
-    var norma = calcularNorma(vetor);
-    return {x:vetor.x / norma, y: vetor.y/norma, z:vetor.z/norma};
-}
-
-function calcularNorma(vetor) {
-    var soma = 0;
-    soma += vetor.x * vetor.x;
-    soma += vetor.y * vetor.y;
-    soma += vetor.z * vetor.z;
-    return Math.sqrt(soma);
-}
-
-function produtoEscalar(vetorA,vetorB) {
-    return vetorA.x*vetorB.x + vetorA.y * vetorB.y + vetorA.z * vetorB.z;
-}
-
-function multiplicarPorConstante(vetor, constante) {
-    return {x:vetor.x * constante, y:vetor.y * constante, z:vetor.z * constante};
-}
-
-function projecaoVetor(vetorA, vetorB) {
-    var norma = calcularNorma(vetorB);
-    var constante = produtoEscalar(vetorA, vetorB) / (norma * norma);
-    return multiplicarPorConstante(vetorB, constante);
-}
-
-// Preparar camera
-function subtracaoVetores(vetorA,vetorB) {
-    return {x:vetorA.x - vetorB.x, y:vetorA.y - vetorB.y, z:vetorA.z - vetorB.z};
-}
-
-//projecao do vetorB sobre o vetorA
-function orgonalizar(vetorA, vetorB) {
-    return subtracaoVetores(vetorB, projecaoVetor(vetorB,vetorA));
-}
-
