@@ -11,7 +11,6 @@ var camera, iluminacao, centroide, plano, zBuffer;
 var pontos3DMundo= [];
 var triangulos3D = [];
 var triangulos2D= [];
-var triangulosRef = [];
 
 //realiza as operacoes ao submeter os arquivos
 jQuery( "#submit" ).click(function() {
@@ -19,6 +18,7 @@ jQuery( "#submit" ).click(function() {
         parametrosCamera();
         parametrosIluminacao();
         parametrosObjeto();
+        desenharObjeto();
     }
 });
 
@@ -165,7 +165,6 @@ function parametrosObjeto() {
         }
     };
     
-    desenharObjeto();
 
     reader.readAsText(file);
 }

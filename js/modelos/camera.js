@@ -25,7 +25,7 @@ function Camera(c, vetorN, vetorV, d, hx, hy) {
         var b = a.subtrair(this.c);
         return b.multiplicacaoMatriz(this.alfa);
     };
-
+    //retorna o ponto nas coordenadas de tela
     this.retornarPontoTela = function (p) {
         var x = (this.d / this.hx) * (p.x / p.z);
         var y = (this.d / this.hy) * (p.y / p.z);

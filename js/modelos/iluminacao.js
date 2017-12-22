@@ -25,14 +25,14 @@ function Iluminacao(pl, ka, ia, kd, od, ks, il, n) {
         }
         if (R != null) {
             //produto escalar de r e v <R, V>
-            var pe_rv = R.produtoEscalar(V);
+            var prodEsc_rv = R.produtoEscalar(V);
             //variavel auxiliar igual ao produto escalar
-            var aux = pe_rv;
+            var aux = prodEsc_rv;
             // o n é a constante de rugosidade <R, V> ^ n
-            for (var i = 0; i < this.n; i++) pe_rv *= aux;
+            for (var i = 0; i < this.n; i++) prodEsc_rv *= aux;
             a = this.il.copiar(); // vetor Il
             // Ks * <R, V>^n * Il
-            a = a.multiplicar(this.ks * pe_rv);
+            a = a.multiplicar(this.ks * prodEsc_rv);
             // l + Ks * <R, V>^n * Il
             l = l.adicionar(a);
         }
