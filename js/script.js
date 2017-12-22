@@ -69,12 +69,13 @@ function parametrosIluminacao() {
         var ia = new Vetor(lines[2][0], lines[2][1], lines[2][2]); //vetor cor ambiental
         var kd = lines[3][0]; //constante difusa
         var od = new Vetor(lines[4][0], lines[4][1], lines[4][2]); //vetor difuso
-        var ks = lines[5]; //parte especular
+        var ks = lines[5][0]; //parte especular
         var il = new Vetor(lines[6][0], lines[6][1], lines[6][2]); //cor da fonte de luz
-        var n =  lines[7]; //constante de rugosidade
+        var n =  lines[7][0]; //constante de rugosidade
         
         iluminacao = new Iluminacao(pl,ka,ia,kd,od,ks,il,n);
         iluminacao.pl = iluminacao.originalPl.getPontoVista(camera);
+        console.log(iluminacao);
     };
 
     reader.readAsText(file);
@@ -150,9 +151,9 @@ function parametrosObjeto() {
         for(var line = qtdPontos + 1; line < finalArquivo; line++){
             var linha = lines[line].split(" ");
             
-            var ponto1 = pontos3DMundo[linha[0]-1];
-            var ponto2 = pontos3DMundo[linha[1]-1];
-            var ponto3 = pontos3DMundo[linha[2]-1];
+            var ponto1 = pontos3DVista[linha[0]-1];
+            var ponto2 = pontos3DVista[linha[1]-1];
+            var ponto3 = pontos3DVista[linha[2]-1];
             var triangulo = new Triangulo(ponto1, ponto2, ponto3);
             triangulo.calcularNormal();
             triangulos3D.push(triangulo);
@@ -165,7 +166,21 @@ function parametrosObjeto() {
         }
     };
     
+    // console.log("iluminacao >>> ");
+    // console.log(iluminacao);
     desenharObjeto();
+
+    // logs
+    // console.log(camera);
+    // console.log(iluminacao);
+    // console.log(centroide); 
+    // console.log(plano);
+    // console.log(zBuffer); 
+    // console.log(pontos3DMundo);  
+    // console.log(triangulos3D);
+    // console.log(triangulos2D);
+    
+    
     reader.readAsText(file);
 }
 

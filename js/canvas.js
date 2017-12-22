@@ -83,15 +83,15 @@ function avaliarPonto(x, y, index) {
 function varrerTriangulo(t, indice, tipo) {
     var inversoInclinacao1, inversoInclinacao2, curvax1, curvax2 = null
     if (tipo === "superior") {
-        curvax1 = t.p1.x;
-        curvax2 = t.p1.x;
+        minX = t.p1.x;
+        maxX = t.p1.x;
         inversoInclinacao1 = (t.p2.x - t.p1.x) / (t.p2.y - t.p1.y);
         inversoInclinacao2 = (t.p3.x - t.p1.x) / (t.p3.y - t.p1.y);
 
 
         for (var y = t.p1.y; y <= t.p2.y; y++) {
-            var inicio = Math.round(curvax1);
-            var fim = Math.round(curvax2);
+            var inicio = Math.trunc(minX);
+            var fim = Math.trunc(maxX);
             if (inicio > fim) {
                 var aux = inicio;
                 inicio = fim;
@@ -102,19 +102,19 @@ function varrerTriangulo(t, indice, tipo) {
                     avaliarPonto(x, y, indice);
                 }
             }
-            curvax1 += inversoInclinacao1;
-            curvax2 += inversoInclinacao2;
+            minX += inversoInclinacao1;
+            maxX += inversoInclinacao2;
         }
 
     } else if (tipo === "inferior") {
         inversoInclinacao1 = (t.p3.x - t.p1.x) / (t.p3.y - t.p1.y);
         inversoInclinacao2 = (t.p3.x - t.p2.x) / (t.p3.y - t.p2.y);
-        curvax1 = t.p3.x;
-        curvax2 = t.p3.x;
+        minX = t.p3.x;
+        maxX = t.p3.x;
 
         for (var y = t.p3.y; y > t.p1.y; y--) {
-            var inicio = Math.round(curvax1);
-            var fim = Math.round(curvax2);
+            var inicio = Math.trunc(minX);
+            var fim = Math.trunc(maxX);
             if (inicio > fim) {
                 var aux = inicio;
                 inicio = fim;
@@ -125,8 +125,8 @@ function varrerTriangulo(t, indice, tipo) {
                     avaliarPonto(x, y, indice);
                 }
             }
-            curvax1 -= inversoInclinacao1;
-            curvax2 -= inversoInclinacao2;
+            minX -= inversoInclinacao1;
+            maxX -= inversoInclinacao2;
         }
     }
 
@@ -135,7 +135,8 @@ function varrerTriangulo(t, indice, tipo) {
 
 function desenharObjeto() {
     for (var i = 0; i < triangulos2D.length; i++) {
-        var t = triangulos2D[i];
+        var t = new Triangulo(triangulos2D[i].p1, triangulos2D[i].p2,triangulos2D[i].p3);
+        // var t = triangulos2D[i];
         t.ordenar();
         if (t.p2.y === t.p3.y) {
             varrerTriangulo(t, i, "superior");
