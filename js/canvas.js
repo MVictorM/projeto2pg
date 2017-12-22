@@ -41,18 +41,18 @@ function pintarPixel(x, y, cor) {
 
 function avaliarPonto(x, y, index) {
     var cb = calculaCoordenadasBaricentricas(x, y, index); //coordenadas baricentricas
-    var pl = triangulos3D[index].getPonto3DBaricentrico(cb); //posicao da luz
+    var pl = triangulos3D[index].retornaPto3dimBaricentrico(cb); //posicao da luz
     var vetorN, vetorV, vetorL, vetorR, cor;
     if (pl.z < zBuffer[y][x]) {
         zBuffer[y][x] = pl.z;
-        vetorN = triangulos3D[index].getVetorBaricentrico(cb);
+        vetorN = triangulos3D[index].retornaVetorBaricentrico(cb);
         vetorN.normalizar();
 
         vetorV = new Vetor((-1) * pl.x, (-1) * pl.y, (-1) * pl.z);
         vetorV.normalizar();
 
-        var c = camera.getPontoVista(iluminacao.pl);
-        c = iluminacao.pl.sub(pl);
+        var c = camera.retornarPontoVista(iluminacao.pl);
+        c = iluminacao.pl.subtrair(pl);
         var vetorL = new Vetor(c.x, c.y, c.z);
         vetorL.normalizar();
 
@@ -63,33 +63,35 @@ function avaliarPonto(x, y, index) {
         }
         if (vetorN.produtoEscalar(vetorL) < 0) {
             // nao possui componentes difusa nem especular.
-            cor = iluminacao.getCor(vetorL, null, vetorV, null, pl, camera);
+            cor = iluminacao.retornarCor(vetorL, null, vetorV, null, pl, camera);
         } else {
             var k = 2 * vetorN.produtoEscalar(vetorL);
-            var a = vetorN.clone();
+            var a = vetorN.copiar();
             a = a.multiplicar(k);
-            vetorR = a.sub(vetorL);
+            vetorR = a.subtrair(vetorL);
             if (vetorR.produtoEscalar(vetorV) < 0) {
                 // nao possui componente especular.
-                cor = iluminacao.getCor(vetorL, vetorN, vetorV, null, pl, camera);
+                cor = iluminacao.retornarCor(vetorL, vetorN, vetorV, null, pl, camera);
             } else {
-                cor = iluminacao.getCor(vetorL, vetorN, vetorV, vetorR, pl, camera);
+                cor = iluminacao.retornarCor(vetorL, vetorN, vetorV, vetorR, pl, camera);
             }
         }
         pintarPixel(x, y, cor);
     }
 }
 
+// varre os triangulos superior ou inferior dependendo do parâmetro tipo
 function varrerTriangulo(t, indice, tipo) {
-    var inversoInclinacao1, inversoInclinacao2, curvax1, curvax2 = null
+    var inversoInclinacao1, inversoInclinacao2 = null;
     if (tipo === "superior") {
         minX = t.p1.x;
         maxX = t.p1.x;
+        //calcula a inclinacao
         inversoInclinacao1 = (t.p2.x - t.p1.x) / (t.p2.y - t.p1.y);
         inversoInclinacao2 = (t.p3.x - t.p1.x) / (t.p3.y - t.p1.y);
 
-
         for (var y = t.p1.y; y <= t.p2.y; y++) {
+            //pega a parte inteira de max e min, atribui o inicio e fim
             var inicio = Math.trunc(minX);
             var fim = Math.trunc(maxX);
             if (inicio > fim) {
@@ -129,14 +131,12 @@ function varrerTriangulo(t, indice, tipo) {
             maxX -= inversoInclinacao2;
         }
     }
-
-
 }
 
 function desenharObjeto() {
     for (var i = 0; i < triangulos2D.length; i++) {
-        var t = new Triangulo(triangulos2D[i].p1, triangulos2D[i].p2,triangulos2D[i].p3);
-        // var t = triangulos2D[i];
+        //inicializa triangulo 2d
+        var t = new Triangulo(triangulos2D[i].p1, triangulos2D[i].p2, triangulos2D[i].p3);
         t.ordenar();
         if (t.p2.y === t.p3.y) {
             varrerTriangulo(t, i, "superior");
@@ -146,10 +146,12 @@ function desenharObjeto() {
             // divide o triangulo em 2
             var x = (t.p1.x + ((t.p2.y - t.p1.y) / (t.p3.y - t.p1.y)) * (t.p3.x - t.p1.x));
             var p4 = new Ponto(x, t.p2.y);
-            var tSup = new Triangulo(t.p1, t.p2, p4);
-            var tInf = new Triangulo(t.p2, p4, t.p3);
-            varrerTriangulo(tSup, i, "superior");
-            varrerTriangulo(tInf, i, "inferior");
+            var trianguloSuperior = new Triangulo(t.p1, t.p2, p4);
+            var trianguloInferior = new Triangulo(t.p2, p4, t.p3);
+            //varre triangulo superior
+            varrerTriangulo(trianguloSuperior, i, "superior");
+            //varre triangulo inferior
+            varrerTriangulo(trianguloInferior, i, "inferior");
         }
     }
 }

@@ -49,7 +49,7 @@ function parametrosCamera() {
         var hx = dhxhy[1];
         var hy = dhxhy[2];
         camera = new Camera(c,vetorN,vetorV,d,hx,hy);
-        camera.genAlfa();
+        camera.calcularAlfa();
     };
 
     reader.readAsText(file);
@@ -74,8 +74,7 @@ function parametrosIluminacao() {
         var n =  lines[7][0]; //constante de rugosidade
         
         iluminacao = new Iluminacao(pl,ka,ia,kd,od,ks,il,n);
-        iluminacao.pl = iluminacao.originalPl.getPontoVista(camera);
-        console.log(iluminacao);
+        iluminacao.pl = iluminacao.originalPl.retornarPontoVista(camera);
     };
 
     reader.readAsText(file);
@@ -110,7 +109,7 @@ function parametrosObjeto() {
             var linhaPonto = lines[line].split(" ");
             var ponto = new Ponto(linhaPonto[0], linhaPonto[1], linhaPonto[2]);
             pontos3DMundo.push(ponto); 
-            pontos3DVista.push(camera.getPontoVista(ponto));
+            pontos3DVista.push(camera.retornarPontoVista(ponto));
             
             // Atualizando o centróide
             centroide.x += parseInt(ponto.x);
@@ -136,15 +135,15 @@ function parametrosObjeto() {
             triangulo.calcularNormal();
             var normal = triangulo.normal;
 
-            pontos3DVista[linha[0]-1].normal = pontos3DVista[linha[0]-1].normal.add(normal);
-            pontos3DVista[linha[1]-1].normal = pontos3DVista[linha[1]-1].normal.add(normal);
-            pontos3DVista[linha[2]-1].normal = pontos3DVista[linha[2]-1].normal.add(normal);
+            pontos3DVista[linha[0]-1].normal = pontos3DVista[linha[0]-1].normal.adicionar(normal);
+            pontos3DVista[linha[1]-1].normal = pontos3DVista[linha[1]-1].normal.adicionar(normal);
+            pontos3DVista[linha[2]-1].normal = pontos3DVista[linha[2]-1].normal.adicionar(normal);
         }
 
         // Iterar sobre os pontos3dvista para pegar os pontos 2d de tela
         for (var j = 0; j < pontos3DVista.length; j++) {
             pontos3DVista[j].normal.normalizar();
-            pontos2DTela[j] = camera.getPontoTela(pontos3DVista[j]);
+            pontos2DTela[j] = camera.retornarPontoTela(pontos3DVista[j]);
         }
 
         // Varrer os triangulos do arquivo de entrada e gerar os 2d
@@ -166,21 +165,8 @@ function parametrosObjeto() {
         }
     };
     
-    // console.log("iluminacao >>> ");
-    // console.log(iluminacao);
     desenharObjeto();
 
-    // logs
-    // console.log(camera);
-    // console.log(iluminacao);
-    // console.log(centroide); 
-    // console.log(plano);
-    // console.log(zBuffer); 
-    // console.log(pontos3DMundo);  
-    // console.log(triangulos3D);
-    // console.log(triangulos2D);
-    
-    
     reader.readAsText(file);
 }
 

@@ -1,4 +1,5 @@
 function Iluminacao(pl, ka, ia, kd, od, ks, il, n) {
+    //parametros iluminacao
     this.pl = pl;
     this.originalPl = pl;
     this.ka = ka;
@@ -9,31 +10,40 @@ function Iluminacao(pl, ka, ia, kd, od, ks, il, n) {
     this.il = il;
     this.n = n;
 
-  this.getCor = function(L, N, V, R, p) {
-    var a;
-    var l = this.ia.clone();
-    l = l.multiplicar(this.ka); // Ia * Ka
-    if(N != null) {
-      var pe_nl = N.produtoEscalar(L); // <N, L>
-      a = new Vetor(this.od.x*this.il.x, this.od.y*this.il.y, this.od.z*this.il.z);
-      a = a.multiplicar(this.kd*pe_nl); 
-      l = new Vetor(l.x+a.x, l.y+a.y, l.z+a.z); 
-    }
-    if(R != null) {
-      var pe_rv = R.produtoEscalar(V); // <R, V>
-      var aux = pe_rv;
-      for (var i = 0; i < this.n; i++) pe_rv *= aux; // n é a cte de rugosidade | <R, V> ^n
-      a = this.il.clone(); // vetor Il
-      a = a.multiplicar(this.ks*pe_rv); // Ks * <R, V>^n * Il
-      l = l.add(a); // l + Ks * <R, V>^n * Il
-    }
-    l.x = Math.round(l.x);
-    l.y = Math.round(l.y);
-    l.z = Math.round(l.z);
-    l.x = Math.min(l.x,255);
-    l.y = Math.min(l.y,255);
-    l.z = Math.min(l.z,255);
-    return l;
-  };
-
+    this.retornarCor = function (L, N, V, R, p) {
+        var a;
+        var l = this.ia.copiar();
+        // Ia * Ka
+        l = l.multiplicar(this.ka);
+        if (N != null) {
+            //produto escalar n e l <N, L>
+            var pe_nl = N.produtoEscalar(L);
+            //variavel l é o vetor da soma
+            a = new Vetor(this.od.x * this.il.x, this.od.y * this.il.y, this.od.z * this.il.z);
+            a = a.multiplicar(this.kd * pe_nl);
+            l = new Vetor(l.x + a.x, l.y + a.y, l.z + a.z);
+        }
+        if (R != null) {
+            //produto escalar de r e v <R, V>
+            var pe_rv = R.produtoEscalar(V);
+            //variavel auxiliar igual ao produto escalar
+            var aux = pe_rv;
+            // o n é a constante de rugosidade <R, V> ^ n
+            for (var i = 0; i < this.n; i++) pe_rv *= aux;
+            a = this.il.copiar(); // vetor Il
+            // Ks * <R, V>^n * Il
+            a = a.multiplicar(this.ks * pe_rv);
+            // l + Ks * <R, V>^n * Il
+            l = l.adicionar(a);
+        }
+        //pega apenas o valor inteiro
+        l.x = Math.round(l.x);
+        l.y = Math.round(l.y);
+        l.z = Math.round(l.z);
+        //maximo de 255, se for menor, atribui o valor de x, se nao atribui 255
+        l.x = Math.min(l.x, 255);
+        l.y = Math.min(l.y, 255);
+        l.z = Math.min(l.z, 255);
+        return l;
+    };
 }
