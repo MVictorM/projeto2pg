@@ -19,4 +19,7 @@ composta de dois triângulos, para que o pixel do triângulo da parede possua as
 igual a menos dessa troca de O d .
 
 ##Observação
-Projeto incompleto.  Feito apenas a parte geral de desenhar na tela as figuras
+Faltaram algumas especificações.  Feito apenas a parte geral de desenhar na tela os objetos
+
+##
+Acesse o [link](https://mvictorm.github.io/projeto2pg/) e envie as [entradas](https://github.com/MVictorM/projeto2pg/tree/master/entradas) referentes ao objeto
