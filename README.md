@@ -18,8 +18,8 @@ o seu O d é para ser substituído pela cor do pixel correspondente da imagem JP
 composta de dois triângulos, para que o pixel do triângulo da parede possua as mesmas coordenadas baricêntricas do pixel correspondente na imagem). A equação de iluminação é
 igual a menos dessa troca de O d .
 
-##Observação
+## Observação
 Faltaram algumas especificações.  Feito apenas a parte geral de desenhar na tela os objetos
 
-##
+## Demonstração
 Acesse o [link](https://mvictorm.github.io/projeto2pg/) e envie as [entradas](https://github.com/MVictorM/projeto2pg/tree/master/entradas) referentes ao objeto
