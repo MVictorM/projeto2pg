@@ -22,4 +22,4 @@ igual a menos dessa troca de O d .
 Faltaram algumas especificações.  Feito apenas a parte geral de desenhar na tela os objetos
 
 ## Demonstração
-Acesse o [link](https://mvictorm.github.io/projeto2pg/) e envie as [entradas](https://github.com/MVictorM/projeto2pg/tree/master/entradas) referentes ao objeto
+Acesse o [link](https://vmmelo.github.io/projeto2pg/) e envie as [entradas](https://github.com/MVictorM/projeto2pg/tree/master/entradas) referentes ao objeto
